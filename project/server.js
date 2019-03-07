@@ -2,13 +2,15 @@ const express = require("express");
 var bodyParser = require('body-parser');
 const dbConnect= require("./dbConnect");
 const Visitor = require("./models/visitor");
+let path = require('path');
 const app = express();
 const port = process.env.PORT || 8080;
-
+app.use("/",express.static(__dirname+"/views/build"))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-
-app.use("/",express.static(__dirname+"/views"))
+app.get("/",function(req,res,next){
+res.sendFile(__dirname+'/views/build');
+})
 
 app.post("/",function(req,res,next){
     var user = new Visitor();
@@ -17,7 +19,7 @@ app.post("/",function(req,res,next){
     user.email = req.body.email;
     user.subject = req.body.subject;
     user.message = req.body.message;
-    
+
     user.save(function(err){
         if(err){
             throw err;
