@@ -8,10 +8,6 @@ const port = process.env.PORT || 8080;
 app.use("/",express.static(__dirname+"/views/build"))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-app.get("/",function(req,res,next){
-res.sendFile(__dirname+'/views/build');
-})
-
 app.post("/",function(req,res,next){
     var user = new Visitor();
     user.fname = req.body.fname;
